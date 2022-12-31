@@ -25,6 +25,7 @@ public class ObservedPerson {
     private String name;
     @Column(name = "person_alias")
     private String alias;
+    @Enumerated(EnumType.STRING)
     @Column(name = "person_sex")
     private Sex sex;
     @Column(name = "citizenship")

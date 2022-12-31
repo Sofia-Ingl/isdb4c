@@ -37,6 +37,13 @@ public interface CaseRepository extends JpaRepository<Case, Integer> {
             "where id = :caseId", nativeQuery = true)
     void updateCaseById(@Param("caseName") String caseName,
                         @Param("caseDescription") String caseDescription,
-            @Param("completeness") CaseCompleteness completeness,
+                        @Param("completeness") CaseCompleteness completeness,
                         @Param("caseId") int caseId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into person_case_participant(person_id, case_id) values " +
+            "(:personId, :caseId)" , nativeQuery = true)
+    void insertCaseParticipants(@Param("caseId") Integer caseId,
+                                @Param("personId") Integer personId);
 }

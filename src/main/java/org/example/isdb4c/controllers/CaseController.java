@@ -66,9 +66,6 @@ public class CaseController {
 
 
 
-
-
-
     @GetMapping("/{id}/people_participants")
     public List<PersonNetTransfer> getCaseParticipants(@RequestHeader("Authorization") String authHeader,
                                                 @PathVariable @NotNull Integer id) {
@@ -79,6 +76,20 @@ public class CaseController {
                 .map(PersonNetTransfer::new)
                 .collect(Collectors.toList());
     }
+
+
+
+    @PostMapping("/{id}/people_participants/add")
+    public void addCaseParticipants(@PathVariable @NotNull Integer id,
+                                    @RequestBody List<Integer> peopleIds) {
+        caseService.insertParticipants(peopleIds, id);
+    }
+
+
+
+
+
+
 
     @GetMapping("/{id}/people_witnesses")
     public List<PersonNetTransfer> getCaseWitnesses(@RequestHeader("Authorization") String authHeader,

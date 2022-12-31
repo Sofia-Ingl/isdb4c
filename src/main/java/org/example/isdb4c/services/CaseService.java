@@ -50,4 +50,11 @@ public class CaseService {
                 id
         );
     }
+
+    public void insertParticipants(List<Integer> peopleIds, Integer caseId) {
+        for (Integer personId:
+                peopleIds) {
+            this.caseRepository.insertCaseParticipants(caseId, personId);
+        }
+    }
 }
