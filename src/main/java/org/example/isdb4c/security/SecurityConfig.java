@@ -16,9 +16,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.http.HttpServletResponse;
+
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     private final CustomUserDetailsService userDetailsService;
     private final JwtFilter jwtFilter;
@@ -45,11 +46,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable().httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/api/*").authenticated()
-                .antMatchers("/user/auth").permitAll()
+                .exceptionHandling()
+                .authenticationEntryPoint(
+                        (request, response, ex) -> {
+                            response.sendError(
+                                    HttpServletResponse.SC_UNAUTHORIZED,
+                                    ex.getMessage()
+                            );
+                        }
+                )
                 .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling();
+                .authorizeRequests()
+                .antMatchers("/user/auth").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

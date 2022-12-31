@@ -65,4 +65,11 @@ public class JwtProvider {
         return 0;
     }
 
+    public String getTokenFromHeader(String header) {
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7);
+        }
+        return null;
+    }
+
 }
