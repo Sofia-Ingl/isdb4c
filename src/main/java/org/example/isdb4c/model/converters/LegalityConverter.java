@@ -6,7 +6,7 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.stream.Stream;
 
-@Converter(autoApply = true)
+@Converter(autoApply = false)
 public class LegalityConverter implements AttributeConverter<Legality, String> {
 
     @Override

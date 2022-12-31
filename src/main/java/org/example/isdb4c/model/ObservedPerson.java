@@ -18,6 +18,7 @@ public class ObservedPerson {
     @SequenceGenerator(name = "personSeq", sequenceName = "observed_person_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personSeq")
     private Integer id;
+    @Enumerated(EnumType.STRING)
     @Column(name = "cathegory")
     private PersonStatus status;
     @Column(name = "person_name")

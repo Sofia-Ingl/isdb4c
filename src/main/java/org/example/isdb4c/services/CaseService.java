@@ -1,6 +1,8 @@
 package org.example.isdb4c.services;
 
 import org.example.isdb4c.model.Case;
+import org.example.isdb4c.model.network.CaseNetTransfer;
+import org.example.isdb4c.model.types.CaseCompleteness;
 import org.example.isdb4c.repository.CaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,5 +40,14 @@ public class CaseService {
 
     public List<Case> getAllIncidentCases(Integer incidentId, Integer accessLvl) {
         return this.caseRepository.findAllByIncidents_IdAndAccessLvlLessThanEqual(incidentId, accessLvl);
+    }
+
+    public void updateCase(CaseNetTransfer updCase, int id) {
+        this.caseRepository.updateCaseById(
+                updCase.getName(),
+                updCase.getDescription(),
+                CaseCompleteness.valueOfDescription(updCase.getCompleteness()),
+                id
+        );
     }
 }

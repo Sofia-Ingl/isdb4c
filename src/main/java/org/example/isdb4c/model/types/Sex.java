@@ -14,4 +14,13 @@ public enum Sex {
     public String getDescription() {
         return this.description;
     }
+
+    public static Sex valueOfDescription(String description) {
+        for (Sex c : values()) {
+            if (c.description.equals(description)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }

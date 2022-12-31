@@ -13,4 +13,13 @@ public enum CaseCompleteness {
     public String getDescription() {
         return this.description;
     }
+
+    public static CaseCompleteness valueOfDescription(String description) {
+        for (CaseCompleteness c : values()) {
+            if (c.description.equals(description)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }

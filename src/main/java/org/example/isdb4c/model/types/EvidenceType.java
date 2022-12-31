@@ -21,4 +21,13 @@ public enum EvidenceType {
     public String getDescription() {
         return this.description;
     }
+
+    public static EvidenceType valueOfDescription(String description) {
+        for (EvidenceType c : values()) {
+            if (c.description.equals(description)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }

@@ -21,6 +21,7 @@ public class Case {
     private String name;
     @Column(name = "description")
     private String description;
+    @Enumerated(EnumType.STRING)
     @Column(name = "criminal_case_status")
     private CaseCompleteness completeness;
     @Column(name = "access_lvl")

@@ -14,4 +14,13 @@ public enum EmployeeStatus {
     public String getDescription() {
         return this.description;
     }
+
+    public static EmployeeStatus valueOfDescription(String description) {
+        for (EmployeeStatus c : values()) {
+            if (c.description.equals(description)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }

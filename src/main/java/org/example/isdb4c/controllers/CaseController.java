@@ -52,6 +52,23 @@ public class CaseController {
                 .collect(Collectors.toList());
     }
 
+
+
+
+
+
+
+    @PostMapping("/{id}/modify")
+    public void modifyCaseFields(@PathVariable @NotNull Integer id, @RequestBody CaseNetTransfer updCase) {
+        caseService.updateCase(updCase, id);
+    }
+
+
+
+
+
+
+
     @GetMapping("/{id}/people_participants")
     public List<PersonNetTransfer> getCaseParticipants(@RequestHeader("Authorization") String authHeader,
                                                 @PathVariable @NotNull Integer id) {

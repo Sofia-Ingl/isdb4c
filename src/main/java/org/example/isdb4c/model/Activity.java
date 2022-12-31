@@ -18,6 +18,7 @@ public class Activity {
     private Integer id;
     @Column(name = "activity_type")
     private String activityType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "cathegory")
     private Legality legality;
     @Column(name = "description")

@@ -30,6 +30,7 @@ public class Employee {
     @Column(name = "passport")
     private String passport;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "current_status")
     private EmployeeStatus status;
 

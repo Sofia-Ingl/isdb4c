@@ -14,4 +14,13 @@ public enum Legality {
     public String getDescription() {
         return this.description;
     }
+
+    public static Legality valueOfDescription(String description) {
+        for (Legality c : values()) {
+            if (c.description.equals(description)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }

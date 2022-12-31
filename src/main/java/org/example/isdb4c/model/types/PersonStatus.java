@@ -16,6 +16,15 @@ public enum PersonStatus {
     public String getDescription() {
         return this.description;
     }
+
+    public static PersonStatus valueOfDescription(String description) {
+        for (PersonStatus c : values()) {
+            if (c.description.equals(description)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }
 
 //('заключенный', 'в розыске', 'подозреваемый', 'член окружения', 'добропорядочный гражданин');
