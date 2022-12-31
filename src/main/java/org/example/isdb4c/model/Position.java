@@ -3,6 +3,7 @@ package org.example.isdb4c.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,5 +22,8 @@ public class Position {
     private String qualification;
     @Column(name = "access_lvl")
     private Integer accessLvl;
+
+    @OneToMany(mappedBy = "position")
+    List<Employee> employees;
 
 }

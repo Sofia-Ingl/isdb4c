@@ -26,6 +26,8 @@ public class Case {
     @Column(name = "access_lvl")
     private Integer accessLvl;
 
+    @OneToMany(mappedBy = "criminalCase")
+    List<Evidence> evidences;
 
     @ManyToMany
     @JoinTable(

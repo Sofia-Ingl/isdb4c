@@ -3,6 +3,7 @@ package org.example.isdb4c.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,4 +21,10 @@ public class Department {
     private String name;
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy="department")
+    private List<Article> articles;
+
+    @OneToMany(mappedBy="department")
+    private List<Employee> employees;
 }

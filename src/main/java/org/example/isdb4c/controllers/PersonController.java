@@ -1,15 +1,15 @@
 package org.example.isdb4c.controllers;
 
 import org.example.isdb4c.model.ObservedPerson;
+import org.example.isdb4c.model.network.*;
 import org.example.isdb4c.security.jwt.JwtProvider;
-import org.example.isdb4c.services.PersonService;
+import org.example.isdb4c.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/person")
@@ -17,26 +17,78 @@ public class PersonController {
 
     private final PersonService personService;
     private final JwtProvider jwtProvider;
+    private final CaseService caseService;
+    private final MembershipService membershipService;
+    private final ActivityService activityService;
+    private final ArticleService articleService;
 
     public PersonController(@Autowired PersonService personService,
-                            @Autowired JwtProvider jwtProvider) {
+                            @Autowired JwtProvider jwtProvider,
+                            @Autowired CaseService caseService,
+                            @Autowired MembershipService membershipService,
+                            @Autowired ActivityService activityService,
+                            @Autowired ArticleService articleService) {
 
         this.personService = personService;
         this.jwtProvider = jwtProvider;
+        this.caseService = caseService;
+        this.membershipService = membershipService;
+        this.activityService = activityService;
+        this.articleService = articleService;
     }
 
     @GetMapping("/all")
-    public List<ObservedPerson> getAll(@RequestHeader("Authorization") String authHeader) {
+    public List<PersonNetTransfer> getAll(@RequestHeader("Authorization") String authHeader) {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
-        List<ObservedPerson> res = personService.getAllObservedPeople(accessLvl);
-        for (ObservedPerson p:
-             res) {
-            p.setCases(null);
-            p.setActivities(null);
-            p.setMemberships(null);
-            p.setWitnessCases(null);
-        }
-        return res;
+        return personService
+                .getAllObservedPeople(accessLvl)
+                .stream()
+                .map(PersonNetTransfer::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/cases")
+    public List<CaseNetTransfer> getPersonCases(@RequestHeader("Authorization") String authHeader,
+                                                @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        return caseService
+                .getAllPersonCases(id,accessLvl)
+                .stream()
+                .map(CaseNetTransfer::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/witness_cases")
+    public List<CaseNetTransfer> getPersonWitnessCases(@RequestHeader("Authorization") String authHeader,
+                                                @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        return caseService
+                .getAllPersonWitnessCases(id,accessLvl)
+                .stream()
+                .map(CaseNetTransfer::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/memberships")
+    public List<MembershipNetTransfer> getPersonMemberships(@RequestHeader("Authorization") String authHeader,
+                                                            @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        return membershipService
+                .getAllPersonMemberships(id)
+                .stream()
+                .map(MembershipNetTransfer::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/activities")
+    public List<ActivityNetTransfer> getPersonActivities(@RequestHeader("Authorization") String authHeader,
+                                                         @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        return activityService
+                .getAllPersonActivities(id)
+                .stream()
+                .map(ActivityNetTransfer::new)
+                .collect(Collectors.toList());
     }
 
 }
