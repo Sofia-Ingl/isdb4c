@@ -42,7 +42,7 @@ public class CaseService {
         return this.caseRepository.findAllByIncidents_IdAndAccessLvlLessThanEqual(incidentId, accessLvl);
     }
 
-    public void updateCase(CaseNetTransfer updCase, int id) {
+    public void updateCase(CaseNetTransfer updCase, Integer id) {
         this.caseRepository.updateCaseById(
                 updCase.getName(),
                 updCase.getDescription(),
@@ -56,5 +56,56 @@ public class CaseService {
                 peopleIds) {
             this.caseRepository.insertCaseParticipants(caseId, personId);
         }
+    }
+
+    public void deleteParticipants(List<Integer> peopleIds, Integer caseId) {
+        this.caseRepository.deleteCaseParticipants(caseId, peopleIds);
+    }
+
+
+    public void insertWitnesses(List<Integer> peopleIds, Integer caseId) {
+        for (Integer personId:
+                peopleIds) {
+            this.caseRepository.insertCaseWitnesses(caseId, personId);
+        }
+    }
+
+    public void deleteWitnesses(List<Integer> peopleIds, Integer caseId) {
+        this.caseRepository.deleteCaseWitnesses(caseId, peopleIds);
+    }
+
+
+    public void insertOrganizations(List<Integer> orgIds, Integer caseId) {
+        for (Integer orgId:
+                orgIds) {
+            this.caseRepository.insertCaseOrgs(caseId, orgId);
+        }
+    }
+
+    public void deleteOrganizations(List<Integer> orgIds, Integer caseId) {
+        this.caseRepository.deleteCaseOrgs(caseId, orgIds);
+    }
+
+    public void insertIncidents(List<Integer> incidentIds, Integer caseId) {
+        for (Integer incidentId:
+                incidentIds) {
+            this.caseRepository.insertCaseIncidents(caseId, incidentId);
+        }
+    }
+
+    public void deleteIncidents(List<Integer> incidentIds, Integer caseId) {
+        this.caseRepository.deleteCaseIncidents(caseId, incidentIds);
+    }
+
+
+    public void insertArticles(List<Integer> articleIds, Integer caseId) {
+        for (Integer articleId:
+                articleIds) {
+            this.caseRepository.insertCaseArticles(caseId, articleId);
+        }
+    }
+
+    public void deleteArticles(List<Integer> articleIds, Integer caseId) {
+        this.caseRepository.deleteCaseArticles(caseId, articleIds);
     }
 }

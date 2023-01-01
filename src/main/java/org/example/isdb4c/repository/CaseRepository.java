@@ -46,4 +46,73 @@ public interface CaseRepository extends JpaRepository<Case, Integer> {
             "(:personId, :caseId)" , nativeQuery = true)
     void insertCaseParticipants(@Param("caseId") Integer caseId,
                                 @Param("personId") Integer personId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from person_case_participant where " +
+            "case_id = :caseId and person_id in :peopleIds" , nativeQuery = true)
+    void deleteCaseParticipants(@Param("caseId") Integer caseId,
+                                @Param("peopleIds") List<Integer> peopleIds);
+
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into person_case_witness(person_id, case_id) values " +
+            "(:personId, :caseId)" , nativeQuery = true)
+    void insertCaseWitnesses(@Param("caseId") Integer caseId,
+                                @Param("personId") Integer personId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from person_case_witness where " +
+            "case_id = :caseId and person_id in :peopleIds" , nativeQuery = true)
+    void deleteCaseWitnesses(@Param("caseId") Integer caseId,
+                                @Param("peopleIds") List<Integer> peopleIds);
+
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into organization_case_participant(organization_id, case_id) values " +
+            "(:orgId, :caseId)" , nativeQuery = true)
+    void insertCaseOrgs(@Param("caseId") Integer caseId,
+                             @Param("orgId") Integer orgId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from organization_case_participant where " +
+            "case_id = :caseId and organization_id in :orgIds" , nativeQuery = true)
+    void deleteCaseOrgs(@Param("caseId") Integer caseId,
+                             @Param("orgIds") List<Integer> orgIds);
+
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into case_related_incident(incident_id, case_id) values " +
+            "(:incidentId, :caseId)" , nativeQuery = true)
+    void insertCaseIncidents(@Param("caseId") Integer caseId,
+                        @Param("incidentId") Integer incidentId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from case_related_incident where " +
+            "case_id = :caseId and incident_id in :incidentIds" , nativeQuery = true)
+    void deleteCaseIncidents(@Param("caseId") Integer caseId,
+                        @Param("incidentIds") List<Integer> incidentIds);
+
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into court_charges(article_id, case_id) values " +
+            "(:articleId, :caseId)" , nativeQuery = true)
+    void insertCaseArticles(@Param("caseId") Integer caseId,
+                             @Param("articleId") Integer articleId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from court_charges where " +
+            "case_id = :caseId and article_id in :articleIds" , nativeQuery = true)
+    void deleteCaseArticles(@Param("caseId") Integer caseId,
+                             @Param("articleIds") List<Integer> articleIds);
+
+
 }

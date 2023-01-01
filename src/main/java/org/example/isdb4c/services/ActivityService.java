@@ -23,4 +23,15 @@ public class ActivityService {
     public List<Activity> getAllOrganizationActivities(Integer orgId) {
         return this.activityRepository.findAllByOrganizations_Id(orgId);
     }
+
+    public void insertPersonActivities(List<Integer> activityIds, Integer personId) {
+        for (Integer activityId:
+                activityIds) {
+            this.activityRepository.insertPersonActivity(activityId, personId);
+        }
+    }
+
+    public void deletePersonActivities(List<Integer> activityIds, Integer personId) {
+        this.activityRepository.deletePersonActivities(personId, activityIds);
+    }
 }

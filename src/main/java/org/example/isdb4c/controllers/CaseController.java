@@ -53,17 +53,10 @@ public class CaseController {
     }
 
 
-
-
-
-
-
     @PostMapping("/{id}/modify")
     public void modifyCaseFields(@PathVariable @NotNull Integer id, @RequestBody CaseNetTransfer updCase) {
         caseService.updateCase(updCase, id);
     }
-
-
 
 
     @GetMapping("/{id}/people_participants")
@@ -78,16 +71,17 @@ public class CaseController {
     }
 
 
-
     @PostMapping("/{id}/people_participants/add")
     public void addCaseParticipants(@PathVariable @NotNull Integer id,
                                     @RequestBody List<Integer> peopleIds) {
         caseService.insertParticipants(peopleIds, id);
     }
 
-
-
-
+    @PostMapping("/{id}/people_participants/delete")
+    public void deleteCaseParticipants(@PathVariable @NotNull Integer id,
+                                    @RequestBody List<Integer> peopleIds) {
+        caseService.deleteParticipants(peopleIds, id);
+    }
 
 
 
@@ -102,6 +96,22 @@ public class CaseController {
                 .collect(Collectors.toList());
     }
 
+
+    @PostMapping("/{id}/people_witnesses/add")
+    public void addCaseWitnesses(@PathVariable @NotNull Integer id,
+                                    @RequestBody List<Integer> peopleIds) {
+        caseService.insertWitnesses(peopleIds, id);
+    }
+
+    @PostMapping("/{id}/people_witnesses/delete")
+    public void deleteCaseWitnesses(@PathVariable @NotNull Integer id,
+                                       @RequestBody List<Integer> peopleIds) {
+        caseService.deleteWitnesses(peopleIds, id);
+    }
+
+
+
+
     @GetMapping("/{id}/orgs_participants")
     public List<OrganizationNetTransfer> getCaseOrgParticipants(@RequestHeader("Authorization") String authHeader,
                                                                 @PathVariable @NotNull Integer id) {
@@ -113,6 +123,20 @@ public class CaseController {
                 .collect(Collectors.toList());
     }
 
+    @PostMapping("/{id}/orgs_participants/add")
+    public void addCaseOrgs(@PathVariable @NotNull Integer id,
+                                 @RequestBody List<Integer> orgIds) {
+        caseService.insertOrganizations(orgIds, id);
+    }
+
+    @PostMapping("/{id}/orgs_participants/delete")
+    public void deleteCaseOrgs(@PathVariable @NotNull Integer id,
+                                    @RequestBody List<Integer> orgIds) {
+        caseService.deleteOrganizations(orgIds, id);
+    }
+
+
+
     @GetMapping("/{id}/articles")
     public List<ArticleNetTransfer> getCaseArticles(@PathVariable @NotNull Integer id) {
         return articleService
@@ -120,6 +144,18 @@ public class CaseController {
                 .stream()
                 .map(ArticleNetTransfer::new)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/{id}/articles/add")
+    public void addCaseArticles(@PathVariable @NotNull Integer id,
+                            @RequestBody List<Integer> articleIds) {
+        caseService.insertArticles(articleIds, id);
+    }
+
+    @PostMapping("/{id}/articles/delete")
+    public void deleteCaseArticles(@PathVariable @NotNull Integer id,
+                               @RequestBody List<Integer> articleIds) {
+        caseService.deleteArticles(articleIds, id);
     }
 
 
@@ -132,6 +168,18 @@ public class CaseController {
                 .stream()
                 .map(IncidentNetTransfer::new)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/{id}/incidents/add")
+    public void addCaseIncidents(@PathVariable @NotNull Integer id,
+                                @RequestBody List<Integer> incidentIds) {
+        caseService.insertIncidents(incidentIds, id);
+    }
+
+    @PostMapping("/{id}/incidents/delete")
+    public void deleteCaseIncidents(@PathVariable @NotNull Integer id,
+                                   @RequestBody List<Integer> incidentIds) {
+        caseService.deleteIncidents(incidentIds, id);
     }
 
     @GetMapping("/{id}/evidences")

@@ -1,6 +1,7 @@
 package org.example.isdb4c.services;
 
 import org.example.isdb4c.model.Membership;
+import org.example.isdb4c.model.network.MembershipNetTransfer;
 import org.example.isdb4c.repository.MembershipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,24 @@ public class MembershipService {
 
     public List<Membership> getAllPersonMemberships(Integer personId) {
         return this.membershipRepository.findAllByPersonId(personId);
+    }
+
+    public void insertMembership(MembershipNetTransfer newMembership) {
+        Membership membership = new Membership();
+        membership.setPersonId(newMembership.getPersonId());
+        membership.setOrganizationId(newMembership.getOrganizationId());
+        membership.setMemberRole(newMembership.getMemberRole());
+        membershipRepository.save(membership);
+    }
+
+    public void insertMemberships(List<MembershipNetTransfer> newMemberships) {
+        for (MembershipNetTransfer m:
+             newMemberships) {
+            insertMembership(m);
+        }
+    }
+
+    public void deletePersonMemberships(List<Integer> orgIds, Integer personId) {
+        membershipRepository.deletePersonMemberships(personId, orgIds);
     }
 }

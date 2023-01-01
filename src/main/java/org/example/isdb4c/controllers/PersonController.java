@@ -20,21 +20,18 @@ public class PersonController {
     private final CaseService caseService;
     private final MembershipService membershipService;
     private final ActivityService activityService;
-    private final ArticleService articleService;
 
     public PersonController(@Autowired PersonService personService,
                             @Autowired JwtProvider jwtProvider,
                             @Autowired CaseService caseService,
                             @Autowired MembershipService membershipService,
-                            @Autowired ActivityService activityService,
-                            @Autowired ArticleService articleService) {
+                            @Autowired ActivityService activityService) {
 
         this.personService = personService;
         this.jwtProvider = jwtProvider;
         this.caseService = caseService;
         this.membershipService = membershipService;
         this.activityService = activityService;
-        this.articleService = articleService;
     }
 
     @GetMapping("/all")
@@ -45,6 +42,12 @@ public class PersonController {
                 .stream()
                 .map(PersonNetTransfer::new)
                 .collect(Collectors.toList());
+    }
+
+
+    @PostMapping("/{id}/modify")
+    public void modifyCaseFields(@PathVariable @NotNull Integer id, @RequestBody PersonNetTransfer updPerson) {
+        this.personService.updatePerson(updPerson, id);
     }
 
     @GetMapping("/{id}/cases")
@@ -80,6 +83,19 @@ public class PersonController {
                 .collect(Collectors.toList());
     }
 
+
+    @GetMapping("/{id}/memberships/add")
+    public void addPersonMemberships(@PathVariable @NotNull Integer id,
+                                     @RequestBody List<MembershipNetTransfer> newMemberships) {
+        this.membershipService.insertMemberships(newMemberships);
+    }
+
+    @GetMapping("/{id}/memberships/delete")
+    public void deletePersonMemberships(@PathVariable @NotNull Integer id,
+                                     @RequestBody List<Integer> orgIds) {
+        this.membershipService.deletePersonMemberships(orgIds, id);
+    }
+
     @GetMapping("/{id}/activities")
     public List<ActivityNetTransfer> getPersonActivities(@RequestHeader("Authorization") String authHeader,
                                                          @PathVariable @NotNull Integer id) {
@@ -89,6 +105,18 @@ public class PersonController {
                 .stream()
                 .map(ActivityNetTransfer::new)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/activities/add")
+    public void addPersonActivities(@PathVariable @NotNull Integer id,
+                                     @RequestBody List<Integer> activityIds) {
+        this.activityService.insertPersonActivities(activityIds, id);
+    }
+
+    @GetMapping("/{id}/activities/delete")
+    public void deletePersonActivities(@PathVariable @NotNull Integer id,
+                                       @RequestBody List<Integer> activityIds) {
+        this.activityService.deletePersonActivities(activityIds, id);
     }
 
 }
