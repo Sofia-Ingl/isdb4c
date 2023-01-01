@@ -19,6 +19,9 @@ public class Evidence {
     @JoinColumn(name = "case_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Case criminalCase;
 
+    @Column(name = "case_id")
+    private Integer caseId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "evidence_type")
     private EvidenceType type;

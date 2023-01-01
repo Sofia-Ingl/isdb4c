@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class EvidenceNetTransfer implements Serializable {
 
     private Integer id;
+    private Integer caseId;
     private String caseName;
     private String type;
     private String description;
@@ -24,6 +25,7 @@ public class EvidenceNetTransfer implements Serializable {
 
     public EvidenceNetTransfer(Evidence evidence) {
         id = evidence.getId();
+        caseId = evidence.getCaseId();
         caseName = evidence.getCriminalCase().getName();
         type = evidence.getType().getDescription();
         description = evidence.getDescription();

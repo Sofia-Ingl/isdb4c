@@ -190,6 +190,8 @@ public class CaseController {
         caseService.deleteIncidents(incidentIds, id);
     }
 
+
+
     @GetMapping("/{id}/evidences")
     public List<EvidenceNetTransfer> getCaseEvidences(@RequestHeader("Authorization") String authHeader,
                                                           @PathVariable @NotNull Integer id) {
@@ -200,6 +202,20 @@ public class CaseController {
                 .map(EvidenceNetTransfer::new)
                 .collect(Collectors.toList());
     }
+
+    @PostMapping("/{id}/evidences/add")
+    public void addCaseEvidence(@PathVariable @NotNull Integer id,
+                                 @RequestBody EvidenceNetTransfer newEvidence) {
+        this.evidenceService.addEvidence(newEvidence);
+    }
+
+    @PostMapping("/{id}/evidences/delete")
+    public void deleteCaseEvidences(@PathVariable @NotNull Integer id,
+                                 @RequestBody  List<Integer> evidenceIds) {
+        this.evidenceService.deleteEvidencesByIds(evidenceIds);
+    }
+
+
 
     @GetMapping("/{id}/responsible_employees")
     public List<EmployeeNetTransfer> getCaseResponsibleEmployees(@PathVariable @NotNull Integer id) {
