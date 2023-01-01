@@ -51,4 +51,37 @@ public class PersonService {
 
         );
     }
+
+//    public void addPerson(PersonNetTransfer newPerson) {
+//        this.personRepository.addPerson(
+//                newPerson.getName(),
+//                PersonStatus.valueOfDescription(newPerson.getStatus()),
+//                newPerson.getAlias(),
+//                Sex.valueOfDescription(newPerson.getSex()),
+//                newPerson.getCitizenship(),
+//                newPerson.getPassport(),
+//                newPerson.getAddress(),
+//                newPerson.getBirthDate(),
+//                newPerson.getLocation(),
+//                newPerson.getAccessLvl()
+//
+//        );
+//    }
+
+    public void addPerson(PersonNetTransfer newPerson) {
+
+        ObservedPerson p = new ObservedPerson();
+        p.setName(newPerson.getName());
+        p.setStatus(PersonStatus.valueOfDescription(newPerson.getStatus()));
+        p.setAlias(newPerson.getAlias());
+        p.setSex(Sex.valueOfDescription(newPerson.getSex()));
+        p.setCitizenship(newPerson.getCitizenship());
+        p.setPassport(newPerson.getPassport());
+        p.setAddress(newPerson.getAddress());
+        p.setBirthDate(newPerson.getBirthDate());
+        p.setLocation(newPerson.getLocation());
+        p.setAccessLvl(newPerson.getAccessLvl());
+
+        this.personRepository.save(p);
+    }
 }

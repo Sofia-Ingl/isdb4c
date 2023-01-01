@@ -48,4 +48,27 @@ public interface PersonRepository extends JpaRepository<ObservedPerson, Integer>
 
 
 
+//    @Modifying
+//    @Transactional
+//    @Query(value = "insert into observed_person(cathegory, person_name, " +
+//            "person_alias, person_sex, citizenship, " +
+//            "passport, address, birth_date," +
+//            "person_location, access_lvl) values " +
+//            "(:#{#personStatus.toString()},:personName, :personAlias, " +
+//            ":#{#personSex.toString()}," +
+//            ":citizenship, :pass, :addr, :birthDate, :location, :accessLvl)",
+//            nativeQuery = true)
+//    void addPerson(@Param("personName") String personName,
+//                   @Param("personStatus") PersonStatus personStatus,
+//                   @Param("personAlias") String personAlias,
+//                   @Param("personSex") Sex personSex,
+//                   @Param("citizenship") String citizenship,
+//                   @Param("pass") String pass,
+//                   @Param("addr") String addr,
+//                   @Param("birthDate") LocalDate birthDate,
+//                   @Param("location") String location,
+//                   @Param("accessLvl") Integer accessLvl);
+
+
+
 }

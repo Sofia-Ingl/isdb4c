@@ -16,6 +16,10 @@ public interface MembershipRepository extends JpaRepository<Membership, Integer>
 
     List<Membership> findAllByPersonId(Integer personId);
 
+    List<Membership> findAllByPersonIdAndOrganization_AccessLvlLessThanEqual(Integer personId, Integer accessLvl);
+
+    List<Membership> findAllByOrganizationIdAndPerson_AccessLvlLessThanEqual(Integer orgId, Integer accessLvl);
+
     @Modifying
     @Transactional
     @Query(value = "delete from membership where " +

@@ -51,6 +51,25 @@ public class CaseService {
         );
     }
 
+//    public void addCase(CaseNetTransfer newCase) {
+//        this.caseRepository.addCase(
+//                newCase.getName(),
+//                newCase.getDescription(),
+//                CaseCompleteness.valueOfDescription(newCase.getCompleteness()),
+//                newCase.getAccessLvl()
+//        );
+//    }
+
+    public void addCase(CaseNetTransfer newCase) {
+        Case c = new Case();
+        c.setName(newCase.getName());
+        c.setDescription(newCase.getDescription());
+        c.setCompleteness(CaseCompleteness.valueOfDescription(newCase.getCompleteness()));
+        c.setAccessLvl(newCase.getAccessLvl());
+
+        this.caseRepository.save(c);
+    }
+
     public void insertParticipants(List<Integer> peopleIds, Integer caseId) {
         for (Integer personId:
                 peopleIds) {

@@ -53,6 +53,12 @@ public class CaseController {
     }
 
 
+    @PostMapping("/add")
+    public void addCase(@RequestBody CaseNetTransfer newCase) {
+        this.caseService.addCase(newCase);
+    }
+
+
     @PostMapping("/{id}/modify")
     public void modifyCaseFields(@PathVariable @NotNull Integer id, @RequestBody CaseNetTransfer updCase) {
         caseService.updateCase(updCase, id);
@@ -159,6 +165,7 @@ public class CaseController {
     }
 
 
+
     @GetMapping("/{id}/incidents")
     public List<IncidentNetTransfer> getCaseIncidents(@RequestHeader("Authorization") String authHeader,
                                                       @PathVariable @NotNull Integer id) {
@@ -170,6 +177,7 @@ public class CaseController {
                 .collect(Collectors.toList());
     }
 
+    /*MAY CHANGE ACCESS LVL, SHOULD RETURN CASE*/
     @PostMapping("/{id}/incidents/add")
     public void addCaseIncidents(@PathVariable @NotNull Integer id,
                                 @RequestBody List<Integer> incidentIds) {

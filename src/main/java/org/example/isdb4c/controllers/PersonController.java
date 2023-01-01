@@ -45,8 +45,14 @@ public class PersonController {
     }
 
 
+    @PostMapping("/add")
+    public void addPerson(@RequestBody PersonNetTransfer newPerson) {
+        this.personService.addPerson(newPerson);
+    }
+
+
     @PostMapping("/{id}/modify")
-    public void modifyCaseFields(@PathVariable @NotNull Integer id, @RequestBody PersonNetTransfer updPerson) {
+    public void modifyPersonFields(@PathVariable @NotNull Integer id, @RequestBody PersonNetTransfer updPerson) {
         this.personService.updatePerson(updPerson, id);
     }
 
@@ -77,7 +83,7 @@ public class PersonController {
                                                             @PathVariable @NotNull Integer id) {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
         return membershipService
-                .getAllPersonMemberships(id)
+                .getAllPersonMemberships(id, accessLvl)
                 .stream()
                 .map(MembershipNetTransfer::new)
                 .collect(Collectors.toList());

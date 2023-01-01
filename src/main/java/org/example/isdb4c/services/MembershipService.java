@@ -17,8 +17,12 @@ public class MembershipService {
         this.membershipRepository = repository;
     }
 
-    public List<Membership> getAllPersonMemberships(Integer personId) {
-        return this.membershipRepository.findAllByPersonId(personId);
+    public List<Membership> getAllPersonMemberships(Integer personId, Integer accessLvl) {
+        return this.membershipRepository.findAllByPersonIdAndOrganization_AccessLvlLessThanEqual(personId, accessLvl);
+    }
+
+    public List<Membership> getAllOrganizationMemberships(Integer orgId, Integer accessLvl) {
+        return this.membershipRepository.findAllByOrganizationIdAndPerson_AccessLvlLessThanEqual(orgId, accessLvl);
     }
 
     public void insertMembership(MembershipNetTransfer newMembership) {

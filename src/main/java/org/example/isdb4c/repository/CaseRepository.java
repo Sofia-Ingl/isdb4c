@@ -5,6 +5,8 @@ import org.example.isdb4c.model.Case;
 import org.example.isdb4c.model.Evidence;
 import org.example.isdb4c.model.network.CaseNetTransfer;
 import org.example.isdb4c.model.types.CaseCompleteness;
+import org.example.isdb4c.model.types.PersonStatus;
+import org.example.isdb4c.model.types.Sex;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -39,6 +42,22 @@ public interface CaseRepository extends JpaRepository<Case, Integer> {
                         @Param("caseDescription") String caseDescription,
                         @Param("completeness") CaseCompleteness completeness,
                         @Param("caseId") int caseId);
+
+
+//    @Modifying
+//    @Transactional
+//    @Query(value = "insert into criminal_case(case_name, description, " +
+//            "criminal_case_status, access_lvl) values " +
+//            "(:caseName, :caseDescription, " +
+//            ":#{#completeness.toString()}, :accessLvl)",
+//            nativeQuery = true)
+//    void addCase(@Param("caseName") String caseName,
+//                   @Param("caseDescription") String caseDescription,
+//                   @Param("completeness") CaseCompleteness completeness,
+//                   @Param("accessLvl") Integer accessLvl);
+
+
+
 
     @Modifying
     @Transactional

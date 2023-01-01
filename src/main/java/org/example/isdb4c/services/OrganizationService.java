@@ -2,6 +2,7 @@ package org.example.isdb4c.services;
 
 import org.example.isdb4c.model.Incident;
 import org.example.isdb4c.model.Organization;
+import org.example.isdb4c.model.network.OrganizationNetTransfer;
 import org.example.isdb4c.repository.IncidentRepository;
 import org.example.isdb4c.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,13 @@ public class OrganizationService {
 
     public Organization getById(Integer id, Integer accessLvl) {
         return this.organizationRepository.findByIdAndAccessLvlLessThanEqual(id, accessLvl);
+    }
+
+    public void addOrganization(OrganizationNetTransfer newOrg) {
+        Organization o = new Organization();
+        o.setAccessLvl(newOrg.getAccessLvl());
+        o.setAddress(newOrg.getAddress());
+        o.setName(newOrg.getName());
+        this.organizationRepository.save(o);
     }
 }
