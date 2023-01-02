@@ -203,7 +203,7 @@ public class CaseController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/{id}/evidences/add")
+    @PostMapping("/{id}/evidences/add_new")
     public void addCaseEvidence(@PathVariable @NotNull Integer id,
                                  @RequestBody EvidenceNetTransfer newEvidence) {
         this.evidenceService.addEvidence(newEvidence);

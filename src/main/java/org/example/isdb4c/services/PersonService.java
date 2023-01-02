@@ -47,6 +47,7 @@ public class PersonService {
                 updPerson.getAddress(),
                 updPerson.getBirthDate(),
                 updPerson.getLocation(),
+                updPerson.getAccessLvl(),
                 id
 
         );

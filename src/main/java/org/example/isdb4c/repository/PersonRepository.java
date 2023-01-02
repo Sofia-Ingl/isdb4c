@@ -33,7 +33,8 @@ public interface PersonRepository extends JpaRepository<ObservedPerson, Integer>
             "passport = :pass, " +
             "address = :addr, " +
             "birth_date = :birthDate, " +
-            "person_location = :location " +
+            "person_location = :location, " +
+            "access_lvl = :accessLvl " +
             "where id = :personId", nativeQuery = true)
     void updatePersonById(@Param("personName") String personName,
                           @Param("personStatus") PersonStatus personStatus,
@@ -44,6 +45,7 @@ public interface PersonRepository extends JpaRepository<ObservedPerson, Integer>
                           @Param("addr") String addr,
                           @Param("birthDate") LocalDate birthDate,
                           @Param("location") String location,
+                          @Param("accessLvl") Integer accessLvl,
                         @Param("personId") int personId);
 
 

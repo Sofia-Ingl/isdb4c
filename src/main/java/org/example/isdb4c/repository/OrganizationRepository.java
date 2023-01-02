@@ -21,6 +21,18 @@ public interface OrganizationRepository extends JpaRepository<Organization, Inte
     public List<Organization> findAllByCases_IdAndAccessLvlLessThanEqual(Integer caseId, Integer accessLvl);
     public List<Organization> findAllByMemberships_PersonIdAndAccessLvlLessThanEqual(Integer personId, Integer accessLvl);
 
+    @Modifying
+    @Transactional
+    @Query(value = "update organization set " +
+            "organization_name = :orgName, " +
+            "address = :address, " +
+            "access_lvl = :accessLvl " +
+            "where id = :orgId", nativeQuery = true)
+    void updateOrganizationById(@Param("orgName") String orgName,
+                        @Param("address") String address,
+                        @Param("accessLvl") Integer accessLvl,
+                        @Param("orgId") int orgId);
+
 //    @Modifying
 //    @Transactional
 //    @Query(value = "insert into organization(organization_name, address, access_lvl)" +

@@ -1,8 +1,6 @@
 package org.example.isdb4c.controllers;
 
-import org.example.isdb4c.model.network.CaseNetTransfer;
-import org.example.isdb4c.model.network.MembershipNetTransfer;
-import org.example.isdb4c.model.network.OrganizationNetTransfer;
+import org.example.isdb4c.model.network.*;
 import org.example.isdb4c.security.jwt.JwtProvider;
 import org.example.isdb4c.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +18,21 @@ public class OrganizationController {
     private final CaseService caseService;
     private final OrganizationService organizationService;
     private final MembershipService membershipService;
+    private final ActivityService activityService;
 
     public OrganizationController(
                           @Autowired JwtProvider jwtProvider,
                           @Autowired CaseService caseService,
                           @Autowired OrganizationService organizationService,
-                          @Autowired MembershipService membershipService
+                          @Autowired MembershipService membershipService,
+                          @Autowired ActivityService activityService
     ) {
 
         this.jwtProvider = jwtProvider;
         this.caseService = caseService;
         this.organizationService = organizationService;
         this.membershipService = membershipService;
+        this.activityService = activityService;
     }
 
     @GetMapping("/all")
@@ -49,6 +50,12 @@ public class OrganizationController {
         this.organizationService.addOrganization(newOrg);
     }
 
+    @PostMapping("/{id}/modify")
+    public void modifyOrganizationFields(@PathVariable @NotNull Integer id,
+                                 @RequestBody OrganizationNetTransfer updOrg) {
+        organizationService.updateOrganization(updOrg, id);
+    }
+
     @GetMapping("/{id}/memberships")
     public List<MembershipNetTransfer> getOrganizationMemberships(@RequestHeader("Authorization") String authHeader,
                                                             @PathVariable @NotNull Integer id) {
@@ -60,6 +67,18 @@ public class OrganizationController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}/memberships/add_new")
+    public void addOrganizationMemberships(@PathVariable @NotNull Integer id,
+                                     @RequestBody List<MembershipNetTransfer> newMemberships) {
+        this.membershipService.insertMemberships(newMemberships);
+    }
+
+    @GetMapping("/{id}/memberships/delete")
+    public void deleteOrganizationMemberships(@PathVariable @NotNull Integer id,
+                                        @RequestBody List<Integer> personIds) {
+        this.membershipService.deleteOrganizationMemberships(personIds, id);
+    }
+
     @GetMapping("/{id}/cases")
     public List<CaseNetTransfer> getOrganizationCases(@RequestHeader("Authorization") String authHeader,
                                                 @PathVariable @NotNull Integer id) {
@@ -69,5 +88,28 @@ public class OrganizationController {
                 .stream()
                 .map(CaseNetTransfer::new)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/activities")
+    public List<ActivityNetTransfer> getOrganizationActivities(@RequestHeader("Authorization") String authHeader,
+                                                         @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        return activityService
+                .getAllOrganizationActivities(id)
+                .stream()
+                .map(ActivityNetTransfer::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/activities/add")
+    public void addPersonActivities(@PathVariable @NotNull Integer id,
+                                    @RequestBody List<Integer> activityIds) {
+        this.activityService.insertOrganizationActivities(activityIds, id);
+    }
+
+    @GetMapping("/{id}/activities/delete")
+    public void deletePersonActivities(@PathVariable @NotNull Integer id,
+                                       @RequestBody List<Integer> activityIds) {
+        this.activityService.deleteOrganizationActivities(activityIds, id);
     }
 }

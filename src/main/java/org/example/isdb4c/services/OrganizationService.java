@@ -42,4 +42,13 @@ public class OrganizationService {
         o.setName(newOrg.getName());
         this.organizationRepository.save(o);
     }
+
+    public void updateOrganization(OrganizationNetTransfer updOrg, Integer id) {
+        this.organizationRepository.updateOrganizationById(
+                updOrg.getName(),
+                updOrg.getAddress(),
+                updOrg.getAccessLvl(),
+                id
+        );
+    }
 }

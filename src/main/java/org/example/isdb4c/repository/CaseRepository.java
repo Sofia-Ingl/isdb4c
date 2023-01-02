@@ -36,11 +36,13 @@ public interface CaseRepository extends JpaRepository<Case, Integer> {
     @Query(value = "update criminal_case set " +
             "case_name = :caseName, " +
             "description = :caseDescription, " +
-            "criminal_case_status = :#{#completeness.toString()} " +
+            "criminal_case_status = :#{#completeness.toString()}, " +
+            "access_lvl = :accessLvl " +
             "where id = :caseId", nativeQuery = true)
     void updateCaseById(@Param("caseName") String caseName,
                         @Param("caseDescription") String caseDescription,
                         @Param("completeness") CaseCompleteness completeness,
+                        @Param("accessLvl") Integer accessLvl,
                         @Param("caseId") int caseId);
 
 

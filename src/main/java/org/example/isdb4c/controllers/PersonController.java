@@ -90,10 +90,16 @@ public class PersonController {
     }
 
 
-    @GetMapping("/{id}/memberships/add")
+//    @GetMapping("/{id}/memberships/add_new")
+//    public void addPersonMemberships(@PathVariable @NotNull Integer id,
+//                                     @RequestBody List<MembershipNetTransfer> newMemberships) {
+//        this.membershipService.insertMemberships(newMemberships);
+//    }
+
+    @GetMapping("/{id}/memberships/add_new")
     public void addPersonMemberships(@PathVariable @NotNull Integer id,
-                                     @RequestBody List<MembershipNetTransfer> newMemberships) {
-        this.membershipService.insertMemberships(newMemberships);
+                                     @RequestBody MembershipNetTransfer newMembership) {
+        this.membershipService.insertMembership(newMembership);
     }
 
     @GetMapping("/{id}/memberships/delete")

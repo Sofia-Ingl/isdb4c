@@ -1,16 +1,14 @@
 package org.example.isdb4c.controllers;
 
 
+import org.example.isdb4c.model.network.CaseNetTransfer;
 import org.example.isdb4c.model.network.IncidentNetTransfer;
-import org.example.isdb4c.model.network.OrganizationNetTransfer;
 import org.example.isdb4c.security.jwt.JwtProvider;
 import org.example.isdb4c.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,32 +16,17 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/incident")
 public class IncidentController {
 
-    private final PersonService personService;
     private final JwtProvider jwtProvider;
     private final CaseService caseService;
-    private final OrganizationService organizationService;
     private final IncidentService incidentService;
-    private final EvidenceService evidenceService;
-    private final EmployeeService employeeService;
-    private final ArticleService articleService;
 
-    public IncidentController(@Autowired PersonService personService,
-                          @Autowired JwtProvider jwtProvider,
+    public IncidentController(@Autowired JwtProvider jwtProvider,
                           @Autowired CaseService caseService,
-                          @Autowired OrganizationService organizationService,
-                          @Autowired EvidenceService evidenceService,
-                          @Autowired IncidentService incidentService,
-                          @Autowired EmployeeService employeeService,
-                          @Autowired ArticleService articleService) {
+                          @Autowired IncidentService incidentService) {
 
-        this.personService = personService;
         this.jwtProvider = jwtProvider;
         this.caseService = caseService;
         this.incidentService = incidentService;
-        this.evidenceService = evidenceService;
-        this.organizationService = organizationService;
-        this.employeeService = employeeService;
-        this.articleService = articleService;
     }
 
     @GetMapping("/all")
@@ -53,6 +36,28 @@ public class IncidentController {
                 .getAllIncidents(accessLvl)
                 .stream()
                 .map(IncidentNetTransfer::new)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/add")
+    public void addOrg(@RequestBody IncidentNetTransfer newIncident) {
+        this.incidentService.addIncident(newIncident);
+    }
+
+    @PostMapping("/{id}/modify")
+    public void modifyIncidentFields(@PathVariable @NotNull Integer id,
+                                 @RequestBody IncidentNetTransfer updIncident) {
+        incidentService.updateIncident(updIncident, id);
+    }
+
+    @GetMapping("/{id}/cases")
+    public List<CaseNetTransfer> getIncidentCases(@RequestHeader("Authorization") String authHeader,
+                                                            @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        return caseService
+                .getAllIncidentCases(id, accessLvl)
+                .stream()
+                .map(CaseNetTransfer::new)
                 .collect(Collectors.toList());
     }
 

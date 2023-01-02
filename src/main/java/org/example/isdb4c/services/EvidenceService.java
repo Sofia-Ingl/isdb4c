@@ -38,6 +38,16 @@ public class EvidenceService {
         this.evidenceRepository.save(e);
     }
 
+    public void updateEvidenceById(EvidenceNetTransfer updEvidence, Integer id) {
+        this.evidenceRepository.updateEvidenceById(
+                EvidenceType.valueOfDescription(updEvidence.getType()),
+                updEvidence.getStorage(),
+                updEvidence.getDescription(),
+                updEvidence.getAccessLvl(),
+                id
+        );
+    }
+
     public void deleteEvidencesByIds(List<Integer> evidenceIds) {
         this.evidenceRepository.deleteAllById(evidenceIds);
     }

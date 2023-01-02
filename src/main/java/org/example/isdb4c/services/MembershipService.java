@@ -43,4 +43,8 @@ public class MembershipService {
     public void deletePersonMemberships(List<Integer> orgIds, Integer personId) {
         membershipRepository.deletePersonMemberships(personId, orgIds);
     }
+
+    public void deleteOrganizationMemberships(List<Integer> peopleIds, Integer orgId) {
+        membershipRepository.deleteOrganizationMemberships(orgId, peopleIds);
+    }
 }

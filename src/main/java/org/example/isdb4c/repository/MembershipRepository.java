@@ -26,4 +26,11 @@ public interface MembershipRepository extends JpaRepository<Membership, Integer>
             "person_id = :personId and organization_id in :orgIds" , nativeQuery = true)
     void deletePersonMemberships(@Param("personId") Integer personId,
                                 @Param("orgIds") List<Integer> orgIds);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from membership where " +
+            "organization_id = :orgId and person_id in :peopleIds" , nativeQuery = true)
+    void deleteOrganizationMemberships(@Param("orgId") Integer orgId,
+                                       @Param("peopleIds") List<Integer> peopleIds);
 }

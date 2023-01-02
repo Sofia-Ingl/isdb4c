@@ -47,6 +47,7 @@ public class CaseService {
                 updCase.getName(),
                 updCase.getDescription(),
                 CaseCompleteness.valueOfDescription(updCase.getCompleteness()),
+                updCase.getAccessLvl(),
                 id
         );
     }

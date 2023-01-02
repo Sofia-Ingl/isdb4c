@@ -14,8 +14,6 @@ import java.util.List;
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
-    @Override
-    List<Activity> findAll();
 
     List<Activity> findAllByOrganizations_Id(Integer organizationId);
     List<Activity> findAllByPeople_Id(Integer personId);
@@ -33,5 +31,20 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
             "where person_id = :personId and activity_id in :activityIds" , nativeQuery = true)
     void deletePersonActivities(@Param("personId") Integer personId,
                               @Param("activityIds") List<Integer> activityIds);
+
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into organization_activity(organization_id, activity_id) values " +
+            "(:orgId, :activityId)" , nativeQuery = true)
+    void insertOrganizationActivity(@Param("activityId") Integer activityId,
+                              @Param("orgId") Integer orgId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from organization_activity " +
+            "where organization_id = :orgId and activity_id in :activityIds" , nativeQuery = true)
+    void deleteOrganizationActivities(@Param("orgId") Integer orgId,
+                                @Param("activityIds") List<Integer> activityIds);
 
 }
