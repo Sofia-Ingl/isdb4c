@@ -22,6 +22,10 @@ public class CaseService {
         return this.caseRepository.findAllByAccessLvlLessThanEqual(accessLvl);
     }
 
+    public Case getById(Integer id) {
+        return this.caseRepository.getById(id);
+    }
+
     public List<Case> getAllPersonCases(Integer personId, Integer accessLvl) {
         return this.caseRepository.findAllByPeople_IdAndAccessLvlLessThanEqual(personId, accessLvl);
     }

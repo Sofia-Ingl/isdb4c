@@ -1,11 +1,16 @@
 package org.example.isdb4c.controllers;
 
+import org.example.isdb4c.model.Case;
 import org.example.isdb4c.model.network.*;
 import org.example.isdb4c.security.jwt.JwtProvider;
 import org.example.isdb4c.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.InstanceNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +55,21 @@ public class CaseController {
                 .stream()
                 .map(CaseNetTransfer::new)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CaseNetTransfer> getCase(@RequestHeader("Authorization") String authHeader,
+                                                   @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        try {
+            Case c = caseService.getById(id);
+            if (c.getAccessLvl() > accessLvl) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            return new ResponseEntity<>(new CaseNetTransfer(c), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
