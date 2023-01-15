@@ -44,6 +44,18 @@ public class PersonController {
                 .collect(Collectors.toList());
     }
 
+    @PostMapping("/all_except")
+    public List<PersonNetTransfer> getAllExcept(@RequestHeader("Authorization") String authHeader, @RequestBody List<PersonNetTransfer> notIncluded) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+
+        List<Integer> ids = notIncluded.stream().map(PersonNetTransfer::getId).collect(Collectors.toList());
+        return personService
+                .getAllObservedPeopleExcept(ids, accessLvl)
+                .stream()
+                .map(PersonNetTransfer::new)
+                .collect(Collectors.toList());
+    }
+
 
     @PostMapping("/add")
     public void addPerson(@RequestBody PersonNetTransfer newPerson) {

@@ -22,6 +22,9 @@ public interface PersonRepository extends JpaRepository<ObservedPerson, Integer>
 
     public List<ObservedPerson> findAllByMemberships_OrganizationIdAndAccessLvlLessThanEqual(Integer organizationId, Integer accessLvl);
 
+    public List<ObservedPerson> findAllByIdNotInAndAccessLvlLessThanEqual(List<Integer> ids, Integer accessLvl);
+
+
     @Modifying
     @Transactional
     @Query(value = "update observed_person set " +

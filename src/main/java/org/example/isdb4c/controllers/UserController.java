@@ -26,10 +26,10 @@ public class UserController {
     public Credentials auth(@RequestBody RawUser rawUser) {
         UserEntity user = userService.getByLoginAndPassword(rawUser.getLogin(), rawUser.getPassword());
         if (user == null) {
-            return new Credentials("", "");
+            return new Credentials("", "", null);
         }
         Integer accessLvl = user.getEmployee().getPosition().getAccessLvl();
         String token = jwtProvider.generateToken(user.getLogin(), accessLvl);
-        return new Credentials(user.getLogin(), token);
+        return new Credentials(user.getLogin(), token, user.getEmployee().getId());
     }
 }

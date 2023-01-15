@@ -24,6 +24,10 @@ public class PersonService {
         return personRepository.findAllByAccessLvlLessThanEqual(accessLvl);
     }
 
+    public List<ObservedPerson> getAllObservedPeopleExcept(List<Integer> ids, Integer accessLvl) {
+        return personRepository.findAllByIdNotInAndAccessLvlLessThanEqual(ids, accessLvl);
+    }
+
     public List<ObservedPerson> getAllCaseParticipants(Integer caseId, Integer accessLvl) {
         return personRepository.findAllByCases_IdAndAccessLvlLessThanEqual(caseId, accessLvl);
     }

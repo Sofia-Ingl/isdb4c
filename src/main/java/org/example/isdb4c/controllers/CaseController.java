@@ -85,7 +85,7 @@ public class CaseController {
     }
 
 
-    @GetMapping("/{id}/people_participants")
+    @GetMapping("/{id}/participants")
     public List<PersonNetTransfer> getCaseParticipants(@RequestHeader("Authorization") String authHeader,
                                                 @PathVariable @NotNull Integer id) {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
@@ -97,13 +97,13 @@ public class CaseController {
     }
 
 
-    @PostMapping("/{id}/people_participants/add")
+    @PostMapping("/{id}/participants/add")
     public void addCaseParticipants(@PathVariable @NotNull Integer id,
                                     @RequestBody List<Integer> peopleIds) {
         caseService.insertParticipants(peopleIds, id);
     }
 
-    @PostMapping("/{id}/people_participants/delete")
+    @PostMapping("/{id}/participants/delete")
     public void deleteCaseParticipants(@PathVariable @NotNull Integer id,
                                     @RequestBody List<Integer> peopleIds) {
         caseService.deleteParticipants(peopleIds, id);
@@ -111,7 +111,7 @@ public class CaseController {
 
 
 
-    @GetMapping("/{id}/people_witnesses")
+    @GetMapping("/{id}/witnesses")
     public List<PersonNetTransfer> getCaseWitnesses(@RequestHeader("Authorization") String authHeader,
                                                        @PathVariable @NotNull Integer id) {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
@@ -123,13 +123,13 @@ public class CaseController {
     }
 
 
-    @PostMapping("/{id}/people_witnesses/add")
+    @PostMapping("/{id}/witnesses/add")
     public void addCaseWitnesses(@PathVariable @NotNull Integer id,
                                     @RequestBody List<Integer> peopleIds) {
         caseService.insertWitnesses(peopleIds, id);
     }
 
-    @PostMapping("/{id}/people_witnesses/delete")
+    @PostMapping("/{id}/witnesses/delete")
     public void deleteCaseWitnesses(@PathVariable @NotNull Integer id,
                                        @RequestBody List<Integer> peopleIds) {
         caseService.deleteWitnesses(peopleIds, id);
@@ -138,7 +138,7 @@ public class CaseController {
 
 
 
-    @GetMapping("/{id}/orgs_participants")
+    @GetMapping("/{id}/organizations")
     public List<OrganizationNetTransfer> getCaseOrgParticipants(@RequestHeader("Authorization") String authHeader,
                                                                 @PathVariable @NotNull Integer id) {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
@@ -149,13 +149,13 @@ public class CaseController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/{id}/orgs_participants/add")
+    @PostMapping("/{id}/organizations/add")
     public void addCaseOrgs(@PathVariable @NotNull Integer id,
                                  @RequestBody List<Integer> orgIds) {
         caseService.insertOrganizations(orgIds, id);
     }
 
-    @PostMapping("/{id}/orgs_participants/delete")
+    @PostMapping("/{id}/organizations/delete")
     public void deleteCaseOrgs(@PathVariable @NotNull Integer id,
                                     @RequestBody List<Integer> orgIds) {
         caseService.deleteOrganizations(orgIds, id);
