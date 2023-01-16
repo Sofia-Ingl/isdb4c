@@ -80,8 +80,9 @@ public class CaseController {
 
 
     @PostMapping("/{id}/modify")
-    public void modifyCaseFields(@PathVariable @NotNull Integer id, @RequestBody CaseNetTransfer updCase) {
+    public CaseNetTransfer modifyCaseFields(@PathVariable @NotNull Integer id, @RequestBody CaseNetTransfer updCase) {
         caseService.updateCase(updCase, id);
+        return updCase;
     }
 
 

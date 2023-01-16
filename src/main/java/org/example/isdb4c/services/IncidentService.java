@@ -25,6 +25,11 @@ public class IncidentService {
         return this.incidentRepository.findAllByCases_IdAndAccessLvlLessThanEqual(caseId, accessLvl);
     }
 
+    public List<Incident> getAllIncidentsExcept(List<Integer> ids, Integer accessLvl) {
+        return this.incidentRepository.findAllByIdNotInAndAccessLvlLessThanEqual(ids, accessLvl);
+    }
+
+
     public void addIncident(IncidentNetTransfer incident) {
         Incident i = new Incident();
         i.setTime(incident.getTime());

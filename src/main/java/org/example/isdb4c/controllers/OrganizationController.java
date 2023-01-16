@@ -45,15 +45,28 @@ public class OrganizationController {
                 .collect(Collectors.toList());
     }
 
+    @PostMapping("/all_except")
+    public List<OrganizationNetTransfer> getAllExcept(@RequestHeader("Authorization") String authHeader, @RequestBody List<OrganizationNetTransfer> notIncluded) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+
+        List<Integer> ids = notIncluded.stream().map(OrganizationNetTransfer::getId).collect(Collectors.toList());
+        return organizationService
+                .getAllOrganizationsExcept(ids, accessLvl)
+                .stream()
+                .map(OrganizationNetTransfer::new)
+                .collect(Collectors.toList());
+    }
+
     @PostMapping("/add")
     public void addOrg(@RequestBody OrganizationNetTransfer newOrg) {
         this.organizationService.addOrganization(newOrg);
     }
 
     @PostMapping("/{id}/modify")
-    public void modifyOrganizationFields(@PathVariable @NotNull Integer id,
+    public OrganizationNetTransfer modifyOrganizationFields(@PathVariable @NotNull Integer id,
                                  @RequestBody OrganizationNetTransfer updOrg) {
         organizationService.updateOrganization(updOrg, id);
+        return updOrg;
     }
 
     @GetMapping("/{id}/memberships")

@@ -23,6 +23,10 @@ public class OrganizationService {
         return this.organizationRepository.findAllByAccessLvlLessThanEqual(accessLvl);
     }
 
+    public List<Organization> getAllOrganizationsExcept(List<Integer> ids, Integer accessLvl) {
+        return this.organizationRepository.findAllByIdNotInAndAccessLvlLessThanEqual(ids, accessLvl);
+    }
+
     public List<Organization> getAllCaseParticipantOrgs(Integer caseId, Integer accessLvl) {
         return this.organizationRepository.findAllByCases_IdAndAccessLvlLessThanEqual(caseId, accessLvl);
     }

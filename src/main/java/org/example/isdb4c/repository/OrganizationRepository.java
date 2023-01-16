@@ -21,6 +21,9 @@ public interface OrganizationRepository extends JpaRepository<Organization, Inte
     public List<Organization> findAllByCases_IdAndAccessLvlLessThanEqual(Integer caseId, Integer accessLvl);
     public List<Organization> findAllByMemberships_PersonIdAndAccessLvlLessThanEqual(Integer personId, Integer accessLvl);
 
+    public List<Organization> findAllByIdNotInAndAccessLvlLessThanEqual(List<Integer> ids, Integer accessLvl);
+
+
     @Modifying
     @Transactional
     @Query(value = "update organization set " +

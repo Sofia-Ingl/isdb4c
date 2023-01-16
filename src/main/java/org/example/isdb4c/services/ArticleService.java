@@ -20,4 +20,7 @@ public class ArticleService {
         return this.articleRepository.findAllByCases_Id(caseId);
     }
 
+    public List<Article> getAllArticlesExcept(List<Integer> ids) {
+        return articleRepository.findAllByIdNotIn(ids);
+    }
 }

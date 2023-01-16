@@ -13,6 +13,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     @Override
     List<Article> findAll();
 
+    List<Article> findAllByIdNotIn(List<Integer> integers);
+
     List<Article> findAllByCases_Id(Integer caseId);
 
 

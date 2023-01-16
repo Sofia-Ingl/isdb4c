@@ -18,7 +18,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Integer> {
 
     List<Incident> findAllByAccessLvlLessThanEqual(Integer accessLvl);
     List<Incident> findAllByCases_IdAndAccessLvlLessThanEqual(Integer caseId, Integer accessLvl);
-
+    List<Incident> findAllByIdNotInAndAccessLvlLessThanEqual(List<Integer> ids, Integer accessLvl);
     @Modifying
     @Transactional
     @Query(value = "update incident set " +

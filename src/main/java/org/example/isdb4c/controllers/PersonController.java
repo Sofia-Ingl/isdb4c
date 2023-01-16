@@ -64,8 +64,9 @@ public class PersonController {
 
 
     @PostMapping("/{id}/modify")
-    public void modifyPersonFields(@PathVariable @NotNull Integer id, @RequestBody PersonNetTransfer updPerson) {
+    public PersonNetTransfer modifyPersonFields(@PathVariable @NotNull Integer id, @RequestBody PersonNetTransfer updPerson) {
         this.personService.updatePerson(updPerson, id);
+        return updPerson;
     }
 
     @GetMapping("/{id}/cases")

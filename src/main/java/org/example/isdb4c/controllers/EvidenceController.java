@@ -19,8 +19,9 @@ public class EvidenceController {
     }
 
     @PostMapping("/{id}/modify")
-    public void modifyEvidenceFields(@PathVariable @NotNull Integer id,
+    public EvidenceNetTransfer modifyEvidenceFields(@PathVariable @NotNull Integer id,
                                      @RequestBody EvidenceNetTransfer updEvidence) {
         this.evidenceService.updateEvidenceById(updEvidence, id);
+        return updEvidence;
     }
 }
