@@ -18,6 +18,7 @@ import javax.persistence.Column;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CaseRepository extends JpaRepository<Case, Integer> {
@@ -30,6 +31,7 @@ public interface CaseRepository extends JpaRepository<Case, Integer> {
 
     List<Case> findAllByAccessLvlLessThanEqual(Integer accessLvl);
 
+    Optional<Case> findByNameAndDescriptionAndAccessLvl(String name, String description, Integer accessLvl);
 
     @Modifying
     @Transactional
@@ -134,6 +136,13 @@ public interface CaseRepository extends JpaRepository<Case, Integer> {
             "case_id = :caseId and article_id in :articleIds" , nativeQuery = true)
     void deleteCaseArticles(@Param("caseId") Integer caseId,
                              @Param("articleIds") List<Integer> articleIds);
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into responsible_employee(employee_id, case_id) values " +
+            "(:employeeId, :caseId)" , nativeQuery = true)
+    void insertCaseResponsibleEmployees(@Param("caseId") Integer caseId,
+                            @Param("employeeId") Integer employeeId);
 
 
 }

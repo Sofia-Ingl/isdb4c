@@ -22,6 +22,11 @@ public class CaseService {
         return this.caseRepository.findAllByAccessLvlLessThanEqual(accessLvl);
     }
 
+    public Integer getCaseId(CaseNetTransfer caseWithoutId) {
+        return this.caseRepository.findByNameAndDescriptionAndAccessLvl(caseWithoutId.getName(),
+                caseWithoutId.getDescription(), caseWithoutId.getAccessLvl()).get().getId();
+    }
+
     public Case getById(Integer id) {
         return this.caseRepository.getById(id);
     }
@@ -131,5 +136,10 @@ public class CaseService {
 
     public void deleteArticles(List<Integer> articleIds, Integer caseId) {
         this.caseRepository.deleteCaseArticles(caseId, articleIds);
+    }
+
+    public void insertResponsibleEmployee(Integer employeeId, Integer caseId) {
+        this.caseRepository.insertCaseResponsibleEmployees(caseId, employeeId);
+
     }
 }

@@ -76,6 +76,10 @@ public class CaseController {
     @PostMapping("/add")
     public void addCase(@RequestBody CaseNetTransfer newCase) {
         this.caseService.addCase(newCase);
+        Integer caseId = this.caseService.getCaseId(newCase);
+        System.out.println(newCase.getInitResponsibleEmployeeId());
+        System.out.println(caseId);
+        this.caseService.insertResponsibleEmployee(newCase.getInitResponsibleEmployeeId(), caseId);
     }
 
 
@@ -246,4 +250,9 @@ public class CaseController {
                 .map(EmployeeNetTransfer::new)
                 .collect(Collectors.toList());
     }
+
+//    @GetMapping("/{id}/responsible_employees/add")
+//    public void addCaseResponsibleEmployee(@PathVariable @NotNull Integer id, Integer employeeId) {
+//        caseService.insertResponsibleEmployee(employeeId, id);
+//    }
 }

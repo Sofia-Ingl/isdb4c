@@ -15,6 +15,7 @@ public class CaseNetTransfer implements Serializable {
     private String description;
     private String completeness;
     private Integer accessLvl;
+    private Integer initResponsibleEmployeeId;
 
     public CaseNetTransfer() {}
 
