@@ -28,6 +28,7 @@ public class ArticleController {
     public List<ArticleNetTransfer> getAllExcept(@RequestBody List<ArticleNetTransfer> notIncluded) {
 
         List<Integer> ids = notIncluded.stream().map(ArticleNetTransfer::getId).collect(Collectors.toList());
+        ids.add(-1);
         return articleService
                 .getAllArticlesExcept(ids)
                 .stream()

@@ -49,6 +49,7 @@ public class PersonController {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
 
         List<Integer> ids = notIncluded.stream().map(PersonNetTransfer::getId).collect(Collectors.toList());
+        ids.add(-1);
         return personService
                 .getAllObservedPeopleExcept(ids, accessLvl)
                 .stream()
@@ -62,6 +63,10 @@ public class PersonController {
         this.personService.addPerson(newPerson);
     }
 
+    @GetMapping("/{id}")
+    public PersonNetTransfer getPersonById(@PathVariable @NotNull Integer id) {
+        return new PersonNetTransfer(this.personService.getObservedPersonById(id));
+    }
 
     @PostMapping("/{id}/modify")
     public PersonNetTransfer modifyPersonFields(@PathVariable @NotNull Integer id, @RequestBody PersonNetTransfer updPerson) {
@@ -97,6 +102,7 @@ public class PersonController {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
         return membershipService
                 .getAllPersonMemberships(id, accessLvl)
+//                .getAllPersonMemberships(id)
                 .stream()
                 .map(MembershipNetTransfer::new)
                 .collect(Collectors.toList());
@@ -109,13 +115,13 @@ public class PersonController {
 //        this.membershipService.insertMemberships(newMemberships);
 //    }
 
-    @GetMapping("/{id}/memberships/add_new")
+    @PostMapping("/{id}/memberships/add_new")
     public void addPersonMemberships(@PathVariable @NotNull Integer id,
                                      @RequestBody MembershipNetTransfer newMembership) {
         this.membershipService.insertMembership(newMembership);
     }
 
-    @GetMapping("/{id}/memberships/delete")
+    @PostMapping("/{id}/memberships/delete")
     public void deletePersonMemberships(@PathVariable @NotNull Integer id,
                                      @RequestBody List<Integer> orgIds) {
         this.membershipService.deletePersonMemberships(orgIds, id);
@@ -132,13 +138,13 @@ public class PersonController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/activities/add")
+    @PostMapping("/{id}/activities/add")
     public void addPersonActivities(@PathVariable @NotNull Integer id,
                                      @RequestBody List<Integer> activityIds) {
         this.activityService.insertPersonActivities(activityIds, id);
     }
 
-    @GetMapping("/{id}/activities/delete")
+    @PostMapping("/{id}/activities/delete")
     public void deletePersonActivities(@PathVariable @NotNull Integer id,
                                        @RequestBody List<Integer> activityIds) {
         this.activityService.deletePersonActivities(activityIds, id);

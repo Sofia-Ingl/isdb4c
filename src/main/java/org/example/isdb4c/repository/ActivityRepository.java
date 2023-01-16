@@ -17,6 +17,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
     List<Activity> findAllByOrganizations_Id(Integer organizationId);
     List<Activity> findAllByPeople_Id(Integer personId);
+    List<Activity> findAllByIdNotIn(List<Integer> ids);
 
     @Modifying
     @Transactional

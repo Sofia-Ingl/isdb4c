@@ -45,6 +45,7 @@ public class IncidentController {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
 
         List<Integer> ids = notIncluded.stream().map(IncidentNetTransfer::getId).collect(Collectors.toList());
+        ids.add(-1);
         return incidentService
                 .getAllIncidentsExcept(ids, accessLvl)
                 .stream()

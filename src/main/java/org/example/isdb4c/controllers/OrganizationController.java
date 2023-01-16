@@ -50,6 +50,7 @@ public class OrganizationController {
         Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
 
         List<Integer> ids = notIncluded.stream().map(OrganizationNetTransfer::getId).collect(Collectors.toList());
+        ids.add(-1);
         return organizationService
                 .getAllOrganizationsExcept(ids, accessLvl)
                 .stream()

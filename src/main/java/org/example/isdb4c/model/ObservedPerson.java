@@ -34,8 +34,6 @@ public class ObservedPerson {
     private String passport;
     @Column(name = "address")
     private String address;
-    @Column(name = "birth_date", columnDefinition = "TIMESTAMP")
-    private LocalDate birthDate;
     @Column(name = "person_location")
     private String location;
     @Column(name = "access_lvl")

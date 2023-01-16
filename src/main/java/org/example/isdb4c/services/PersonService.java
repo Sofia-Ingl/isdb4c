@@ -9,6 +9,7 @@ import org.example.isdb4c.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,6 +23,10 @@ public class PersonService {
 
     public List<ObservedPerson> getAllObservedPeople(Integer accessLvl) {
         return personRepository.findAllByAccessLvlLessThanEqual(accessLvl);
+    }
+
+    public ObservedPerson getObservedPersonById(Integer id) {
+        return this.personRepository.findById(id).get();
     }
 
     public List<ObservedPerson> getAllObservedPeopleExcept(List<Integer> ids, Integer accessLvl) {
@@ -49,7 +54,7 @@ public class PersonService {
                 updPerson.getCitizenship(),
                 updPerson.getPassport(),
                 updPerson.getAddress(),
-                updPerson.getBirthDate(),
+                //(updPerson.getBirthDate() == null)? LocalDate.parse(""): LocalDate.parse(updPerson.getBirthDate()),
                 updPerson.getLocation(),
                 updPerson.getAccessLvl(),
                 id
@@ -83,7 +88,6 @@ public class PersonService {
         p.setCitizenship(newPerson.getCitizenship());
         p.setPassport(newPerson.getPassport());
         p.setAddress(newPerson.getAddress());
-        p.setBirthDate(newPerson.getBirthDate());
         p.setLocation(newPerson.getLocation());
         p.setAccessLvl(newPerson.getAccessLvl());
 

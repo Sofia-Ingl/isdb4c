@@ -22,6 +22,10 @@ public class ActivityService {
         return this.activityRepository.findAll();
     }
 
+    public List<Activity> getAllActivitiesExcept(List<Integer> ids) {
+        return this.activityRepository.findAllByIdNotIn(ids);
+    }
+
     public List<Activity> getAllPersonActivities(Integer personId) {
         return this.activityRepository.findAllByPeople_Id(personId);
     }

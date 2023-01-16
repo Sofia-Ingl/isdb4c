@@ -19,7 +19,6 @@ public class PersonNetTransfer {
     private String citizenship;
     private String passport;
     private String address;
-    private LocalDate birthDate;
     private String location;
     private Integer accessLvl;
 
@@ -34,7 +33,6 @@ public class PersonNetTransfer {
         citizenship = person.getCitizenship();
         passport = person.getPassport();
         address = person.getAddress();
-        birthDate = person.getBirthDate();
         location = person.getLocation();
         accessLvl = person.getAccessLvl();
     }
