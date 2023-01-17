@@ -27,6 +27,10 @@ public class OrganizationService {
         return this.organizationRepository.findAllByIdNotInAndAccessLvlLessThanEqual(ids, accessLvl);
     }
 
+    public Organization getOrganizationById(Integer id) {
+        return this.organizationRepository.findById(id).get();
+    }
+
     public List<Organization> getAllCaseParticipantOrgs(Integer caseId, Integer accessLvl) {
         return this.organizationRepository.findAllByCases_IdAndAccessLvlLessThanEqual(caseId, accessLvl);
     }

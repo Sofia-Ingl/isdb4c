@@ -1,12 +1,16 @@
 package org.example.isdb4c.controllers;
 
 import org.example.isdb4c.model.ObservedPerson;
+import org.example.isdb4c.model.Organization;
 import org.example.isdb4c.model.network.*;
 import org.example.isdb4c.security.jwt.JwtProvider;
 import org.example.isdb4c.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,8 +68,18 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public PersonNetTransfer getPersonById(@PathVariable @NotNull Integer id) {
-        return new PersonNetTransfer(this.personService.getObservedPersonById(id));
+    public ResponseEntity<PersonNetTransfer> getPersonById(@RequestHeader("Authorization") String authHeader,
+                                                                       @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        try {
+            ObservedPerson o = this.personService.getObservedPersonById(id);
+            if (o.getAccessLvl() > accessLvl) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            return new ResponseEntity<>(new PersonNetTransfer(o), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/{id}/modify")
@@ -109,11 +123,6 @@ public class PersonController {
     }
 
 
-//    @GetMapping("/{id}/memberships/add_new")
-//    public void addPersonMemberships(@PathVariable @NotNull Integer id,
-//                                     @RequestBody List<MembershipNetTransfer> newMemberships) {
-//        this.membershipService.insertMemberships(newMemberships);
-//    }
 
     @PostMapping("/{id}/memberships/add_new")
     public void addPersonMemberships(@PathVariable @NotNull Integer id,

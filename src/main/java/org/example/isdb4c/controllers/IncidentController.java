@@ -1,14 +1,19 @@
 package org.example.isdb4c.controllers;
 
 
+import org.example.isdb4c.model.Case;
+import org.example.isdb4c.model.Incident;
 import org.example.isdb4c.model.network.CaseNetTransfer;
 import org.example.isdb4c.model.network.IncidentNetTransfer;
 import org.example.isdb4c.model.network.OrganizationNetTransfer;
 import org.example.isdb4c.security.jwt.JwtProvider;
 import org.example.isdb4c.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,6 +61,21 @@ public class IncidentController {
     @PostMapping("/add")
     public void addOrg(@RequestBody IncidentNetTransfer newIncident) {
         this.incidentService.addIncident(newIncident);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<IncidentNetTransfer> getIncidentById(@RequestHeader("Authorization") String authHeader,
+                                             @PathVariable @NotNull Integer id) {
+        Integer accessLvl = jwtProvider.getAccessLvlFromToken(jwtProvider.getTokenFromHeader(authHeader));
+        try {
+            Incident i = this.incidentService.getIncidentById(id);
+            if (i.getAccessLvl() > accessLvl) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            return new ResponseEntity<>(new IncidentNetTransfer(i), HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/{id}/modify")

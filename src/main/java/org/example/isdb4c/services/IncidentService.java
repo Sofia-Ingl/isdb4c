@@ -29,6 +29,9 @@ public class IncidentService {
         return this.incidentRepository.findAllByIdNotInAndAccessLvlLessThanEqual(ids, accessLvl);
     }
 
+    public Incident getIncidentById(Integer id) {
+        return this.incidentRepository.findById(id).get();
+    }
 
     public void addIncident(IncidentNetTransfer incident) {
         Incident i = new Incident();
