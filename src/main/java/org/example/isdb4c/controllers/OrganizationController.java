@@ -102,13 +102,13 @@ public class OrganizationController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/memberships/add_new")
+    @PostMapping("/{id}/memberships/add_new")
     public void addOrganizationMemberships(@PathVariable @NotNull Integer id,
                                      @RequestBody List<MembershipNetTransfer> newMemberships) {
         this.membershipService.insertMemberships(newMemberships);
     }
 
-    @GetMapping("/{id}/memberships/delete")
+    @PostMapping("/{id}/memberships/delete")
     public void deleteOrganizationMemberships(@PathVariable @NotNull Integer id,
                                         @RequestBody List<Integer> personIds) {
         this.membershipService.deleteOrganizationMemberships(personIds, id);
@@ -136,13 +136,13 @@ public class OrganizationController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/activities/add")
+    @PostMapping("/{id}/activities/add")
     public void addPersonActivities(@PathVariable @NotNull Integer id,
                                     @RequestBody List<Integer> activityIds) {
         this.activityService.insertOrganizationActivities(activityIds, id);
     }
 
-    @GetMapping("/{id}/activities/delete")
+    @PostMapping("/{id}/activities/delete")
     public void deletePersonActivities(@PathVariable @NotNull Integer id,
                                        @RequestBody List<Integer> activityIds) {
         this.activityService.deleteOrganizationActivities(activityIds, id);

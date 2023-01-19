@@ -126,13 +126,21 @@ public class PersonController {
 
     @PostMapping("/{id}/memberships/add_new")
     public void addPersonMemberships(@PathVariable @NotNull Integer id,
-                                     @RequestBody MembershipNetTransfer newMembership) {
-        this.membershipService.insertMembership(newMembership);
+                                     @RequestBody List<MembershipNetTransfer> newMemberships) {
+        for (MembershipNetTransfer m:
+             newMemberships) {
+            this.membershipService.insertMembership(m);
+        }
+
     }
 
     @PostMapping("/{id}/memberships/delete")
     public void deletePersonMemberships(@PathVariable @NotNull Integer id,
                                      @RequestBody List<Integer> orgIds) {
+        for (Integer i:
+             orgIds) {
+            System.out.println(i);
+        }
         this.membershipService.deletePersonMemberships(orgIds, id);
     }
 

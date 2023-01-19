@@ -230,8 +230,12 @@ public class CaseController {
 
     @PostMapping("/{id}/evidences/add_new")
     public void addCaseEvidence(@PathVariable @NotNull Integer id,
-                                 @RequestBody EvidenceNetTransfer newEvidence) {
-        this.evidenceService.addEvidence(newEvidence);
+                                 @RequestBody List<EvidenceNetTransfer> newEvidences) {
+        for (EvidenceNetTransfer e:
+             newEvidences) {
+            this.evidenceService.addEvidence(e);
+        }
+
     }
 
     @PostMapping("/{id}/evidences/delete")
