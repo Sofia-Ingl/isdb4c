@@ -16,11 +16,19 @@ public class ArticleService {
         this.articleRepository = repository;
     }
 
+    public Article getArticleById(Integer id) {
+        return this.articleRepository.findById(id).get();
+    }
+
     public List<Article> getAllCaseArticles(Integer caseId) {
         return this.articleRepository.findAllByCases_Id(caseId);
     }
 
     public List<Article> getAllArticlesExcept(List<Integer> ids) {
         return articleRepository.findAllByIdNotIn(ids);
+    }
+
+    public List<Article> getAllArticles() {
+        return articleRepository.findAll();
     }
 }

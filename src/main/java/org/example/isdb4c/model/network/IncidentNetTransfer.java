@@ -1,5 +1,6 @@
 package org.example.isdb4c.model.network;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.example.isdb4c.model.Incident;
 
